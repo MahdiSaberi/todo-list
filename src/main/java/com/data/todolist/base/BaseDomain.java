@@ -1,5 +1,7 @@
 package com.data.todolist.base;
 
+import lombok.Builder;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +16,13 @@ public abstract class BaseDomain<ID extends Serializable> implements Serializabl
     public BaseDomain() {
     }
 
+    public void setId(ID id) {
+        this.id = id;
+    }
+
     public ID getId() {
         return id;
     }
+
+
 }

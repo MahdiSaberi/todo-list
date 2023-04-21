@@ -1,6 +1,7 @@
 package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
+import lombok.Builder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
