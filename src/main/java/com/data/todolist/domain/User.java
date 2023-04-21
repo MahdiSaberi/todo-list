@@ -6,11 +6,12 @@ import java.util.List;
 
 public class User extends BaseDomain<Long> {
     private String username;
-
+    private String password;
     private List<Event> events;
 
-    public User(String username) {
+    public User(String username,String password) {
         this.username = username;
+        this.password = password;
     }
 
     public User() {
@@ -30,6 +31,14 @@ public class User extends BaseDomain<Long> {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
