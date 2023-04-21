@@ -1,7 +1,8 @@
 package com.data.todolist.domain;
 
-public class User {
-    private Long id;
+import com.data.todolist.base.BaseDomain;
+
+public class User extends BaseDomain<Long> {
     private String username;
 
     public User(String username) {
@@ -9,14 +10,6 @@ public class User {
     }
 
     public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
