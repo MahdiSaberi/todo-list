@@ -3,37 +3,36 @@ package com.data.todolist.base.impl;
 import com.data.todolist.base.BaseDomain;
 import com.data.todolist.base.BaseDomainRepository;
 import com.data.todolist.base.BaseService;
-import com.data.todolist.domain.User;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Random;
-
+import java.util.List;
+@Transactional(readOnly = true)
 public class BaseServiceImpl<T extends BaseDomain<ID>,ID extends Serializable> implements BaseService<T,ID> {
 
     BaseDomainRepository repository;
 
     @Override
-    public Mono<T> save(T t) {
-        return repository.save(t);
+    @Transactional
+    public T save(T t) {
+        return (T) repository.save(t);
     }
 
     @Override
-    public Mono<T> edit(T t) {
-        return repository.findById(t.getId())
-                .flatMap(e -> {
-                    return repository.save(t);
-                });
+    @Transactional
+    public T edit(T t) {
+        Object o = repository.findById(t.getId()).get();
+        return (T) repository.save(o);
     }
 
     @Override
-    public Flux<T> findAll() {
+    @Transactional
+    public List<T> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Mono<Void> remove(ID id) {
-        return repository.deleteById(id);
+    public void remove(ID id) {
+        repository.deleteById(id);
     }
 }

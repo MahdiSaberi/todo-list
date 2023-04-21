@@ -1,10 +1,21 @@
 package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
+import org.hibernate.annotations.ManyToAny;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Event extends BaseDomain<Long> {
+    @Column
     private String title;
+    @Column
     private String content;
+    @ManyToOne
     private User user;
 
     public Event() {

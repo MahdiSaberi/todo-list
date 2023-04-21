@@ -2,11 +2,19 @@ package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
-
+@Entity
+@Table(name = "user_tbl")
 public class User extends BaseDomain<Long> {
+    @Column
     private String username;
+    @Column
     private String password;
+    @OneToMany(mappedBy = "user")
     private List<Event> events;
 
     public User(String username,String password) {

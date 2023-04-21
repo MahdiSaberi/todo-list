@@ -3,51 +3,53 @@ package com.data.todolist.service.impl;
 import com.data.todolist.domain.User;
 import com.data.todolist.repository.UserRepository;
 import com.data.todolist.service.UserService;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.Random;
-
+import java.util.List;
+@Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    UserRepository repository;
+    private final UserRepository repository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public Mono<User> save(String username, String password) {
-        if (Boolean.FALSE.equals(repository.existsByUsername(username).block()))
-            return repository.save(new User(username, password));
-        else {
-            int number = new Random().nextInt(100) + 1;
-            return save(username + number,password);
+    @Transactional
+    public User save(String username, String password) {
+        if (repository.findByUsername(username) == null){
+            return repository.save(new User(username,password));
+        }else {
+            return null;
         }
     }
 
     @Override
-    public Mono<User> edit(User user) {
-        return repository.findById(user.getId())
-                .flatMap(u -> {
-                    u.setUsername(u.getUsername());
-                    return repository.save(user);
-                });
-
+    @Transactional
+    public User edit(User user) {
+        return repository.save(repository.findById(user.getId()).get());
     }
 
     @Override
-    public Flux<User> findAll() {
+    @Transactional
+    public List<User> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Mono<User> findByUsernameAndPassword(String username, String password) {
+    @Transactional
+    public User findByUsernameAndPassword(String username, String password) {
         return repository.findByUsernameAndPassword(username,password);
     }
 
     @Override
-    public Mono<Void> remove(String username) {
-        return repository.findByUsername(username)
-                .flatMap(user -> {
-                    return repository.delete(user);
-                });
+    public void remove(String username) {
+        User user = repository.findByUsername(username);
+        repository.delete(user);
     }
 }

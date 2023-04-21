@@ -2,11 +2,20 @@ package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
 
+import javax.persistence.*;
 import java.util.Set;
-
+@Entity
+@Table
 public class Box extends BaseDomain<Long> {
+    @Column
     private String topic;
+    @OneToMany
     private Set<Event> events;
+    @ManyToOne
+    private User user;
+
+    public Box() {
+    }
 
     public Box(String topic) {
         this.topic = topic;
@@ -26,6 +35,14 @@ public class Box extends BaseDomain<Long> {
 
     public void setEvents(Set<Event> events) {
         this.events = events;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
