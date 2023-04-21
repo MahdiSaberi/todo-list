@@ -14,12 +14,12 @@ public class UserServiceImpl implements UserService {
     UserRepository repository;
 
     @Override
-    public Mono<User> save(String username) {
+    public Mono<User> save(String username, String password) {
         if (Boolean.FALSE.equals(repository.existsByUsername(username).block()))
-            return repository.save(new User(username));
+            return repository.save(new User(username, password));
         else {
             int number = new Random().nextInt(100) + 1;
-            return save(username + number);
+            return save(username + number,password);
         }
     }
 
@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Flux<User> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public Mono<User> findByUsernameAndPassword(String username, String password) {
+        return repository.findByUsernameAndPassword(username,password);
     }
 
     @Override

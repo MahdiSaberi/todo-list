@@ -8,5 +8,6 @@ import reactor.core.publisher.Mono;
 public interface UserRepository extends BaseDomainRepository<User,Long> {
     Mono<User> findByUsername(String username);
     Mono<Boolean> existsByUsername(String username);
+    Mono<User> findByUsernameAndPassword(String username, String password);
 
 }
