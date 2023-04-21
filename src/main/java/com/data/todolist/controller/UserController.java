@@ -15,10 +15,6 @@ public class UserController {
     private final HttpSession session;
     private final UserService userService;
 
-    @GetMapping("/test")
-    public String test(){
-        return "Test!";
-    }
 
     @PutMapping("/update")
     public ResponseEntity<String> editProfile(@RequestBody User user){
