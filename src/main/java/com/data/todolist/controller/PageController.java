@@ -17,16 +17,16 @@ public class PageController {
     private final HttpSession session;
 
     @GetMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
 
         try{
             User user = userService.findByUsernameAndPassword(username,password);
             if (user != null) {
                 session.setAttribute("userId",user.getId());
-                return ResponseEntity.ok(HttpStatus.OK);
+                return ResponseEntity.ok("login was successfully.");
             }
         }catch (Exception e){
-            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok(HttpStatus.NOT_FOUND.getReasonPhrase());
         }
         return null;
     }
