@@ -38,7 +38,6 @@
 			<artifactId>reactor-bom</artifactId>
 			<version>2022.0.6</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -53,6 +52,11 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>r2dbc-postgresql</artifactId>
+			<version>1.0.1.RELEASE</version>
 		</dependency>
 	</dependencies>
 
