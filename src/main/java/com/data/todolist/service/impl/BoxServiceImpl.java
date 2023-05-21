@@ -18,11 +18,11 @@ public class BoxServiceImpl extends BaseServiceImpl<Box, Long> implements BoxSer
         this.repository = repository;
     }
 
-    @Override
-    @Transactional
-    public Box findById(Long id) {
-        return repository.findById(id).get();
-    }
+//    @Override
+//    @Transactional
+//    public Box findById(Long id) {
+//        return repository.findById(id).get();
+//    }
 
     @Override
     @Transactional
