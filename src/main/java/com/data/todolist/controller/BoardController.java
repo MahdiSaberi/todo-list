@@ -5,10 +5,7 @@ import com.data.todolist.domain.User;
 import com.data.todolist.service.BoxService;
 import com.data.todolist.service.EventService;
 import com.data.todolist.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/box")
 public class BoardController {
 
     private final HttpSession httpSession;
@@ -37,7 +34,7 @@ public class BoardController {
         return userService.findById((Long) httpSession.getAttribute("userId"));
     }
 
-    @PostMapping("/box/create")
+    @PostMapping("/create")
     public ResponseEntity<Object> createBox(@RequestParam String topic) {
         try {
             Box box = new Box(topic);
@@ -48,7 +45,7 @@ public class BoardController {
         }
     }
 
-    @DeleteMapping("/box/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteBox(@RequestParam(required = false) String topic,
                                             @RequestParam(required = false) Long boxId) {
         try {
@@ -78,7 +75,7 @@ public class BoardController {
         }
     }
 
-    @PutMapping("/box/update")
+    @PutMapping("/update")
     public ResponseEntity<Object> updateBox(@RequestParam Long id,@RequestParam String topic){
         try{
             Box box = boxService.findById(id);
