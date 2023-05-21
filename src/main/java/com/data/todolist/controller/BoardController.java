@@ -3,7 +3,6 @@ package com.data.todolist.controller;
 import com.data.todolist.domain.Box;
 import com.data.todolist.domain.User;
 import com.data.todolist.service.BoxService;
-import com.data.todolist.service.EventService;
 import com.data.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/box")
@@ -88,6 +88,11 @@ public class BoardController {
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Bad request");
         }
+    }
+
+    @GetMapping("/getAll")
+    public List<Box> getBoxesByUser(){
+        return boxService.findAllByUserId(getUser().getId());
     }
 
 }

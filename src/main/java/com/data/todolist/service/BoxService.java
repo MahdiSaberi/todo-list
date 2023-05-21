@@ -2,6 +2,8 @@ package com.data.todolist.service;
 
 import com.data.todolist.domain.Box;
 
+import java.util.List;
+
 public interface BoxService {
     Box findByTopic(String topic);
 
@@ -13,4 +15,5 @@ public interface BoxService {
     Box findByTopicAndUser_Id(String topic, Long userId);
     Box findById(Long id);
     Box update(Box box);
+    List<Box> findAllByUserId(Long id);
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class BoxServiceImpl extends BaseServiceImpl<Box, Long> implements BoxService {
@@ -48,7 +50,12 @@ public class BoxServiceImpl extends BaseServiceImpl<Box, Long> implements BoxSer
         return repository.findByTopicAndUser_Id(topic, userId);
     }
 
-//    @Override
+    @Override
+    public List<Box> findAllByUserId(Long id) {
+        return repository.findAllByUser_Id(id);
+    }
+
+    //    @Override
 //    public void deleteById(Long id) {
 //        repository.deleteById(id);
 //    }

@@ -7,10 +7,10 @@ import com.data.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -75,5 +75,10 @@ public class EventController {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
         }
+    }
+
+    @GetMapping("/getAll")
+    public List<Event> getEventsByUser(){
+        return eventService.findAllByUserId(getUser().getId());
     }
 }
