@@ -1,6 +1,7 @@
 package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.Column;
@@ -16,7 +17,12 @@ public class Event extends BaseDomain<Long> {
     @Column
     private String content;
     @ManyToOne
+    @JsonIgnore
     private User user;
+
+    @ManyToOne
+    @JsonIgnore
+    private Box box;
 
     public Event() {
     }
@@ -50,11 +56,21 @@ public class Event extends BaseDomain<Long> {
         this.user = user;
     }
 
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", user=" + user +
+                ", box=" + box +
                 '}';
     }
 }

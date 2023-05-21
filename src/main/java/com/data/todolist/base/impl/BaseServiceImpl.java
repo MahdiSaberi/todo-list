@@ -3,27 +3,34 @@ package com.data.todolist.base.impl;
 import com.data.todolist.base.BaseDomain;
 import com.data.todolist.base.BaseDomainRepository;
 import com.data.todolist.base.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Transactional(readOnly = true)
-public class BaseServiceImpl<T extends BaseDomain<ID>, ID extends Serializable> implements BaseService<T, ID> {
+public class BaseServiceImpl<T extends BaseDomain<ID>,
+        ID extends Serializable,
+        R extends BaseDomainRepository<T,ID>> implements BaseService<T, ID> {
 
-    BaseDomainRepository repository;
+    protected final R repository;
+
+    public BaseServiceImpl(R repository) {
+        this.repository = repository;
+    }
 
     @Override
     @Transactional
     public T save(T t) {
-        return (T) repository.save(t);
+        return repository.save(t);
     }
 
     @Override
     @Transactional
     public T update(T t) {
-        Object o = repository.findById(t.getId()).get();
-        return (T) repository.save(o);
+        T o = repository.findById(t.getId()).get();
+        return repository.save(o);
     }
 
     @Override
@@ -40,7 +47,7 @@ public class BaseServiceImpl<T extends BaseDomain<ID>, ID extends Serializable> 
     @Override
     @Transactional
     public T findById(ID id){
-       return (T) repository.findById(id).get();
+       return repository.findById(id).get();
     }
 
     @Override

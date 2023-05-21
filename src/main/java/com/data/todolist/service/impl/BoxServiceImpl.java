@@ -12,12 +12,11 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class BoxServiceImpl extends BaseServiceImpl<Box, Long> implements BoxService {
-    private final BoxRepository repository;
+public class BoxServiceImpl extends BaseServiceImpl<Box, Long, BoxRepository> implements BoxService {
 
-    @Autowired
+
     public BoxServiceImpl(BoxRepository repository) {
-        this.repository = repository;
+        super(repository);
     }
 
 //    @Override

@@ -11,8 +11,11 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class EventServiceImpl extends BaseServiceImpl<Event, Long> implements EventService {
-    EventRepository repository;
+public class EventServiceImpl extends BaseServiceImpl<Event, Long, EventRepository> implements EventService {
+
+    public EventServiceImpl(EventRepository repository) {
+        super(repository);
+    }
 
     @Override
     public List<Event> findAllByUserId(Long userId) {

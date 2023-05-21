@@ -1,6 +1,7 @@
 package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -10,9 +11,10 @@ import java.util.Set;
 public class Box extends BaseDomain<Long> {
     @Column(unique = true)
     private String topic;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "box",cascade = CascadeType.ALL)
     private Set<Event> events;
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public Box() {
@@ -51,6 +53,7 @@ public class Box extends BaseDomain<Long> {
         return "Box{" +
                 "topic='" + topic + '\'' +
                 ", events=" + events +
+                ", user=" + user +
                 '}';
     }
 }

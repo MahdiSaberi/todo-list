@@ -38,6 +38,7 @@ public class BoardController {
         try {
             Box box = new Box(topic);
             box.setUser(getUser());
+            System.out.println(box);
             boxService.save(box);
             return ResponseEntity.ok(box);
         } catch (Exception e) {

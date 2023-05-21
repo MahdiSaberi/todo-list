@@ -2,6 +2,7 @@ package com.data.todolist.controller;
 
 import com.data.todolist.domain.Event;
 import com.data.todolist.domain.User;
+import com.data.todolist.service.BoxService;
 import com.data.todolist.service.EventService;
 import com.data.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,14 @@ public class EventController {
     private final HttpSession httpSession;
     private final UserService userService;
     private final EventService eventService;
+    private final BoxService boxService;
 
     @Autowired
-    public EventController(HttpSession httpSession, UserService userService, EventService eventService) {
+    public EventController(HttpSession httpSession, UserService userService, EventService eventService, BoxService boxService) {
         this.httpSession = httpSession;
         this.userService = userService;
         this.eventService = eventService;
+        this.boxService = boxService;
     }
 
     User getUser() {
@@ -33,13 +36,18 @@ public class EventController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createEvent(@RequestBody Event event) {
+    public ResponseEntity<Object> createEvent(@RequestParam String title,
+                                              @RequestParam String content,
+                                              @RequestParam Long boxId) {
         try {
-            if (Objects.nonNull(event)) {
-                event.setUser(getUser());
-                eventService.save(event);
-                return ResponseEntity.ok(event);
-            } else return ResponseEntity.badRequest().body("event is null");
+            Event event = new Event();
+            event.setUser(getUser());
+            event.setTitle(title);
+            event.setContent(content);
+            event.setBox(boxService.findById(boxId));
+            eventService.save(event);
+            return ResponseEntity.ok(event);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Bad request.");
         }
@@ -64,21 +72,19 @@ public class EventController {
     @PutMapping("/update")
     public ResponseEntity<Object> updateEvent(@RequestBody Event event) {
         try {
-            if (event.getId() != null){
-                if(event.getUser().getId() == getUser().getId()){
+            if (event.getId() != null) {
+                if (event.getUser().getId() == getUser().getId()) {
                     eventService.update(event);
                     return ResponseEntity.ok(event);
-                }
-                else return ResponseEntity.ok("cannot edit this event");
-            }
-            else return ResponseEntity.badRequest().body("Bad request.");
-        }catch (Exception e){
+                } else return ResponseEntity.ok("cannot edit this event");
+            } else return ResponseEntity.badRequest().body("Bad request.");
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
         }
     }
 
     @GetMapping("/getAll")
-    public List<Event> getEventsByUser(){
+    public List<Event> getEventsByUser() {
         return eventService.findAllByUserId(getUser().getId());
     }
 }
