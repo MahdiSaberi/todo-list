@@ -52,4 +52,9 @@ public class BoxServiceImpl extends BaseServiceImpl<Box, Long> implements BoxSer
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Box update(Box box) {
+        return repository.update(box);
+    }
 }

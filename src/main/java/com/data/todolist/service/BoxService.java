@@ -9,4 +9,4 @@ public interface BoxService {
     Box findByIdAndUser_Id(Long boxId, Long userId);
     Box findByTopicAndUser_Id(String topic, Long userId);
     void deleteById(Long id);
-}
+    Box update(Box box);}

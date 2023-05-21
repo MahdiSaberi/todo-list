@@ -1,15 +1,16 @@
 package com.data.todolist.domain;
 
 import com.data.todolist.base.BaseDomain;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Set;
 @Entity
 @Table
 public class Box extends BaseDomain<Long> {
-    @Column
+    @Column(unique = true)
     private String topic;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<Event> events;
     @ManyToOne
     private User user;

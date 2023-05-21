@@ -78,4 +78,19 @@ public class BoardController {
         }
     }
 
+    @PutMapping("/box/update")
+    public ResponseEntity<Object> updateBox(@RequestParam Long id,@RequestParam String topic){
+        try{
+            Box box = boxService.findById(id);
+            if(box.getUser().getId() == getUser().getId()){
+                box.setTopic(topic);
+                boxService.update(box);
+                return ResponseEntity.ok(box);
+            }
+            return ResponseEntity.ok(box);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Bad request");
+        }
+    }
+
 }
