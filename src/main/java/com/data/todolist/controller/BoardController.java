@@ -19,14 +19,13 @@ public class BoardController {
     private final HttpSession httpSession;
     private final UserService userService;
     private final BoxService boxService;
-    private final EventService eventService;
+
 
     @Autowired
-    public BoardController(HttpSession httpSession, UserService userService, BoxService boxService, EventService eventService) {
+    public BoardController(HttpSession httpSession, UserService userService, BoxService boxService) {
         this.httpSession = httpSession;
         this.userService = userService;
         this.boxService = boxService;
-        this.eventService = eventService;
     }
 
 
@@ -39,6 +38,7 @@ public class BoardController {
         try {
             Box box = new Box(topic);
             box.setUser(getUser());
+            boxService.save(box);
             return ResponseEntity.ok(box);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Bad request.");
