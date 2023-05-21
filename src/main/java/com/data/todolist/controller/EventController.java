@@ -5,13 +5,13 @@ import com.data.todolist.domain.User;
 import com.data.todolist.service.EventService;
 import com.data.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/event")
@@ -35,11 +35,45 @@ public class EventController {
     @PostMapping("/create")
     public ResponseEntity<Object> createEvent(@RequestBody Event event) {
         try {
-            event.setUser(getUser());
-            eventService.save(event);
-            return ResponseEntity.ok(event);
+            if (Objects.nonNull(event)) {
+                event.setUser(getUser());
+                eventService.save(event);
+                return ResponseEntity.ok(event);
+            } else return ResponseEntity.badRequest().body("event is null");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Bad request.");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteEvent(@RequestParam Long id) {
+        try {
+            Event event = eventService.findById(id);
+            if (event != null) {
+                if (event.getUser().getId() == getUser().getId()) {
+                    eventService.deleteById(event.getId());
+                    return ResponseEntity.ok("event removed successfully");
+                } else return ResponseEntity.ok("cannot remove this event.");
+            }
+            return ResponseEntity.badRequest().body("event not found");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Bad request.");
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Object> updateEvent(@RequestBody Event event) {
+        try {
+            if (event.getId() != null){
+                if(event.getUser().getId() == getUser().getId()){
+                    eventService.update(event);
+                    return ResponseEntity.ok(event);
+                }
+                else return ResponseEntity.ok("cannot edit this event");
+            }
+            else return ResponseEntity.badRequest().body("Bad request.");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
         }
     }
 }

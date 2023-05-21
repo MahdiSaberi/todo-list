@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+
 @Transactional(readOnly = true)
-public class BaseServiceImpl<T extends BaseDomain<ID>,ID extends Serializable> implements BaseService<T,ID> {
+public class BaseServiceImpl<T extends BaseDomain<ID>, ID extends Serializable> implements BaseService<T, ID> {
 
     BaseDomainRepository repository;
 
@@ -20,7 +21,7 @@ public class BaseServiceImpl<T extends BaseDomain<ID>,ID extends Serializable> i
 
     @Override
     @Transactional
-    public T edit(T t) {
+    public T update(T t) {
         Object o = repository.findById(t.getId()).get();
         return (T) repository.save(o);
     }
@@ -34,5 +35,17 @@ public class BaseServiceImpl<T extends BaseDomain<ID>,ID extends Serializable> i
     @Override
     public void remove(ID id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public T findById(ID id){
+       return (T) repository.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(ID id) {
+         repository.deleteById(id);
     }
 }

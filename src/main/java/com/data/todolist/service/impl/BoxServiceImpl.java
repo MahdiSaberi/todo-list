@@ -48,13 +48,13 @@ public class BoxServiceImpl extends BaseServiceImpl<Box, Long> implements BoxSer
         return repository.findByTopicAndUser_Id(topic, userId);
     }
 
-    @Override
-    public void deleteById(Long id) {
-        repository.deleteById(id);
-    }
+//    @Override
+//    public void deleteById(Long id) {
+//        repository.deleteById(id);
+//    }
 
-    @Override
-    public Box update(Box box) {
-        return repository.update(box);
-    }
+//    @Override
+//    public Box update(Box box) {
+//        return repository.update(box);
+//    }
 }
