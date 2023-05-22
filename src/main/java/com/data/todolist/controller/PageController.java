@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 @RestController
 @RequestMapping("/page")
@@ -46,5 +48,13 @@ public class PageController {
     public ResponseEntity<String> logout(){
         session.setAttribute("userId",null);
         return ResponseEntity.ok("You logged out!");
+    }
+
+    @GetMapping("/exit")
+    public void exit() throws AWTException {
+        System.setProperty("java.awt.headless", "false");
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_ALT);
+        robot.keyPress(KeyEvent.VK_F4);
     }
 }
